@@ -1,6 +1,5 @@
 CREATE TABLE Usuarios (
-    id      VARCHAR (15)    PRIMARY KEY 
-                            NOT NULL,
+    id     INT AUTO_INCREMENT PRIMARY KEY,
     nombre  CHAR (50),
     mail    CHAR (50),
     
@@ -9,23 +8,9 @@ CREATE TABLE Usuarios (
     passw   CHAR (20) 
 );
 
-CREATE TABLE Productos (
-    id_producto    VARCHAR (15) PRIMARY KEY
-                                NOT NULL,
-    nombre         CHAR (30),
-    marca          CHAR (20),
-    descripcion    CHAR (50),
-    categoria      CHAR (15),
-    costo          DOUBLE,
-    precio         DOUBLE,
-    cantidad       DOUBLE,
-    id_proveedores VARCHAR (15) REFERENCES Proveedores (id_proveedores) 
-                                NOT NULL
-);
 
 CREATE TABLE Proveedores (
-    id_proveedores VARCHAR (15) PRIMARY KEY
-                                NOT NULL,
+    id_proveedores INT AUTO_INCREMENT PRIMARY KEY,
     nombre         CHAR (30),
     categoria      CHAR (15),
     ciudad         CHAR (20),
@@ -33,3 +18,16 @@ CREATE TABLE Proveedores (
     telefono       VARCHAR (15) 
 );
 
+
+CREATE TABLE Productos (
+    id_producto    INT AUTO_INCREMENT PRIMARY KEY,
+    nombre         CHAR (30),
+    marca          CHAR (20),
+    descripcion    CHAR (50),
+    categoria      CHAR (15),
+    costo          DOUBLE,
+    precio         DOUBLE,
+    cantidad       DOUBLE,
+    id_proveedores INT NOT NULL, FOREIGN KEY (id_proveedores) REFERENCES Proveedores (id_proveedores) 
+                                
+);
