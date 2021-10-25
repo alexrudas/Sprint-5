@@ -20,6 +20,15 @@
                             </div>
                             <div class="modal-body">
                                 <form action="{{ url_for('Inicio') }}" method="post">
+                                    
+                                    <div class="form-group">
+                                        Perfil
+                                        <select name="profile" id="profile"  class="form-control" required>
+                                            <option value="" selected disabled >Seleccione el Perfil de su cuenta </option>
+                                            <option value="1" >Administrador principal</option>
+                                            <option value="2" >Administrador</option>
+                                            <option value="3" >Usuario final</option>
+                                        </select>
                                     <div class="form-group">
                                         Usuario
                                         <input type="text" name="nombre" class="form-control" placeholder="Usuario (Obligatorio)">
