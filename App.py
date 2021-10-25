@@ -23,11 +23,11 @@ mysql = MySQL(App)
 
 App.secret_key = os.urandom(24)
 
-@App.route('/productos1') 
-def productos1(): 
-  form = Producto()
-  productos = sql_select_productos()
-  return render_template('productos1.html', productos = productos)
+#@App.route('/productos1') 
+#def productos1(): 
+  #form = Producto()
+  #productos = sql_select_productos()
+  #return render_template('productos1.html', productos = productos)
 
 # @App.route('/nuevo', methods=['GET', 'POST'])
 # def nuevo():
@@ -53,7 +53,9 @@ def Inicio():
     g.nombre = request.form.get("nombre")
     return render_template('inicio.html', nombre=g.nombre)
 
+###################################################################
 #### Index ruta usuarios + obtención de datos de  mysql #########
+####################################################################
 @App.route('/Usuarios')
 def Usuario():
     cursor = mysql.connection.cursor()
@@ -63,7 +65,10 @@ def Usuario():
     return render_template('usuario.html', user = user)
 #########################################################
 
-##### Metodo de creación de usuarios #############3
+
+#########################################################
+#  -----------Metodo de creación de usuarios -----------#
+#########################################################
 @App.route('/Usuarios', methods=["POST"])
 def Usuario_add():
     #Datos de formulario 
@@ -84,7 +89,10 @@ def Usuario_add():
     return redirect(url_for('Usuario'))
 #########################################################
 
-##### Metodo de eliminiación de usuaro #####################
+
+#############################################################
+#------------ Metodo de eliminiación de usuaro ------------#
+############################################################
 @App.route('/Usuario/delete/<string:id>', methods=["GET", "POST"])
 def delete_usuario(id):
     cursor = mysql.connection.cursor()
@@ -94,7 +102,10 @@ def delete_usuario(id):
     return redirect(url_for('Usuario'))
 ###########################################################
 
-### Metodo actualizar de usuario ##########################
+
+###########################################################
+#-------------Metodo actualizar de usuario -------------- #
+###########################################################
 @App.route('/Usuario/update/<id>', methods=['POST'])
 def update_contact(id):
     if request.method == 'POST':
@@ -109,6 +120,7 @@ def update_contact(id):
         mysql.connection.commit()
         return redirect(url_for('Usuario'))
 #######################################################
+
 
 
 @App.route('/Productos', methods=["GET", "POST"])
