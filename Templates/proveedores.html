@@ -102,7 +102,19 @@
 
            <!-- DataTales Example -->
            <div class="content">
-               <div class="animated">   
+            {% with messages = get_flashed_messages()  %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="animated">
                    
              <!-- ========================================================--> 
            <!-- INICIA MODAL  -->
@@ -135,36 +147,43 @@
                                        <span aria-hidden="true">&times;</span>
                                    </button>
                                </div>
-                               <div class="modal-body">
-                                   <div class="form-group">
-                                       ID Provedor
-                                       <input type="text" class="form-control" placeholder="ID Proveedor (Obligatorio)">
-                                   </div>
+                               <div class="modal-body">  
+                                <form action="/Proveedores" method="POST">    <!--LLama a la ruta para enviar datos al servidor-->                       
                                    <div class="form-group">
                                        Nombre Proveedor
-                                       <input type="text" class="form-control" placeholder="*Nombre Proveedor (Obligatorio)">
+                                       <input type="text" name="name" class="form-control" placeholder="*Nombre proveedor(Obligatorio)">                                                                       
                                    </div>
                                    <div class="form-group">
                                        Categoría
-                                       <input type="email" class="form-control" placeholder="*Categoría (Obligatorio)">
+                                       <select name="category" id="category"  class="form-control" required>
+                                        <option value="" selected disabled >Seleccione el Perfil de su cuenta </option>
+                                        <option value="1" >Autopartes en general</option>
+                                        <option value="2" >Llantas</option>
+                                        <option value="3" >Autopartes Eléctricas</option>
+                                        </select>
                                    </div>
                                    <div class="form-group">
                                        Ciudad
-                                       <input type="text" class="form-control" placeholder="*Ciudad (Obligatorio)">
+                                       <select name="city" id="city"  class="form-control" required>
+                                        <option value="" selected disabled >Seleccione Ciudad del proveedor </option>
+                                        <option value="1" >Bogotá</option>
+                                        <option value="2" >Medellín</option>                                        
+                                        <option value="3" >Barranquilla</option>                                      
+                                        </select>
                                    </div>
                                    <div class="form-group">
                                        Dirección
-                                       <input type="text" class="form-control" placeholder="*Dirección (Obligatorio)">
+                                       <input type="text" name="address" class="form-control" placeholder="*Dirección proveedor(Obligatorio)">                                  
                                    </div>
                                    <div class="form-group">
                                        Teléfono/Celular
-                                       <input type="text" class="form-control" placeholder="*Teléfono/Celular (Obligatorio)">
+                                       <input type="text" name="phone" class="form-control" placeholder="*Teléfono/Celular(Obligatorio)">                                       
+                                   </div>                                                                           
+                                   <div class="modal-footer">
+                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                       <button type="submit" class="btn btn-primary">Guardar</button>
                                    </div>
-                                                                           
-                               </div>
-                               <div class="modal-footer">
-                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                   <button type="button" class="btn btn-primary">Guardar</button>
+                                </form>  
                                </div>
                            </div>
                        </div>
@@ -276,25 +295,101 @@
                            <!-- ========================================================-->
                            <!-- INICIA CONTENIDO DE LA TABLA -->
                            <tbody>
-                            {% for item in user %}
+                               
+                               <!--*******************************************************-->
+                                <!--Llamado a la Base de datos de acuerdo a las posiciones-->
+                                <!--********************************************************-->
+                            {% for item in supplier %}
                             <tr>
-                                <td>{{item.0}}</td> <!--Id. de usuariao en la posicion 0 --->                                          
-                                <td>{{item.1}}</td> <!--Nombre. de usuariao en la posicion 1 --->                                                 
-                                <td>{{item.2}}</td> <!--Correo. de usuariao en la posicion 2 --->         
-                                <td>{{item.4}}</td> <!--Nick. de usuariao en la posicion 4 --->  
-                                {% if item.3 == '1' %}       
-                                    <td>Administrador principal</td> <!--Rol. de usuariao en la posicion 3 ---> 
-                                {% elif item.3 == '2' %}  
-                                    <td>Administrador</td> <!--Rol. de usuariao en la posicion 3 --->  
-                                {% else %} 
-                                    <td>Usuario final</td> <!--Rol. de usuariao en la posicion 3 --->   
-                                {% endif %}   
+                                <td>{{item.0}}</td> <!--Id. proveedor en la posicion 0 --->                                          
+                                <td>{{item.1}}</td> <!--Nombre. proveedor  en la posicion 1 --->   
+
+                                <!--{% if item.2 == '1' %} --> <!--Categoría. proveedor  en la posicion 2 --->
+                                   <!-- <td>Autopartes en general</td> <!--Categoría. proveedor en la posicion 2 ---> 
+                                <!--{% elif item.2 == '2' %}  
+                                    <td>Llantas</td> <!--Categoría. proveedor en la posicion 2 --->  
+                                <!--{% else %} 
+                                    <td>Autopartes Eléctricas</td> <!--Categoría. proveedor en la posicion 2 --->   
+                                <!--{% endif %}   
+                                                                              
+                                {% if item.3 == '1' %}  <!--Ciudad. proveedor  en la posicion 2 --->
+                                    <!--<td>Bogotá</td> <!--Ciudad. proveedor en la posicion 2 ---> 
+                                <!--{% elif item.3 == '2' %}  
+                                    <td>Medellín</td> <!--Ciudad. proveedor en la posicion 2 --->  
+                                <!--{% else %} 
+                                    <td>Barranquilla</td> <!--Ciudad. proveedor en la posicion 2 --->   
+                                <!--{% endif %} -->
+                                <td>{{item.2}}</td> <!--Categoría. proveedor  en la posicion 4 --->
+                                <td>{{item.3}}</td> <!--Ciudad. proveedor  en la posicion 4 --->
+                                <td>{{item.4}}</td> <!--Dirección. proveedor  en la posicion 4 --->
+                                <td>{{item.5}}</td> <!--Teléfono/Celular. proveedor  en la posicion 5 --->  
+                                
                                 <td>
+
+                                    <!--*********************************************************************-->
+                                    <!--ACCIÓN DEL BOTÓN EDITAR QUE CONECTA CON EL MODAL-->
+                                    <!--*****************************************************************-->
                                     <a href="" class="btn btn-sm btn-info py-2" data-toggle="modal"  data-target="#largeModal{{item.0}}">
-                                        <i  class="fas fa-edit"></i>
+                                        <i  class="fas fa-edit"></i>    <!--Esta línea de código trae el botón Eliminar de Bootstrap-->
                                     </a>
+                                    <div class="modal fade" id="largeModal{{item.0}}" tabindex="-1" role="form" aria-labelledby="largeModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="largeModalLabel">Editar Proveedor</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">  
+                                                    <form action="/Proveedores/update/{{item.0}}" method="POST">    <!--LLama a la ruta para enviar datos al servidor-->                       
+                                                       <div class="form-group">
+                                                           Nombre Proveedor
+                                                           <!--El value =""{{item.1}}" carga el modal cargando los datos de la fila que se van a editar-->
+                                                           <input type="text" name="name" value="{{item.1}}"class="form-control" placeholder="*Nombre proveedor(Obligatorio)">                                                                       
+                                                       </div>
+                                                       <div class="form-group">
+                                                           Categoría
+                                                           <select name="category" id="category"  class="form-control" required>
+                                                            <option value="" selected disabled >Seleccione el Perfil de su cuenta </option>
+                                                            <option value="1" >Autopartes en general</option>
+                                                            <option value="2" >Llantas</option>
+                                                            <option value="3" >Autopartes Eléctricas</option>
+                                                            </select>
+                                                       </div>
+                                                       <div class="form-group">
+                                                           Ciudad
+                                                           <select name="city" id="city"  class="form-control" required>
+                                                            <option value="" selected disabled >Seleccione Ciudad del proveedor </option>
+                                                            <option value="1" >Bogotá</option>
+                                                            <option value="2" >Medellín</option>                                        
+                                                            <option value="3" >Barranquilla</option>                                      
+                                                            </select>
+                                                       </div>
+                                                       <div class="form-group">
+                                                           Dirección
+                                                           <input type="text" name="address" value="{{item.4}}" class="form-control" placeholder="*Dirección proveedor(Obligatorio)">                                  
+                                                       </div>
+                                                       <div class="form-group">
+                                                           Teléfono/Celular
+                                                           <input type="text" name="phone" value="{{item.5}}" class="form-control" placeholder="*Teléfono/Celular(Obligatorio)">                                       
+                                                       </div>                                                                           
+                                                       <div class="modal-footer">
+                                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                           <button type="submit" class="btn btn-primary">Guardar</button>
+                                                       </div>                                                
+                                                    </form>                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <!--***********************************************************************************-->
+
+                                    <!--***************************************************-->
+                                    <!--ACCIÓN DEL BOTÓN ELIMINAR QUE CONECTA CON EL MODAL-->
+                                    <!--***************************************************-->                                    
                                     <button data-toggle="modal"  data-target="#deleteModal{{item.0}}" class="btn btn-sm btn-danger py-2" type="submit">
-                                        <i class="fas fa-minus"></i>
+                                        <i class="fas fa-minus"></i>  <!--Esta línea de código trae el botón Eliminar de Bootstrap-->
                                     </button>
                                     <div class="modal fade" id="deleteModal{{item.0}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                     aria-hidden="true">
@@ -306,60 +401,17 @@
                                                     <span aria-hidden="true">×</span>
                                                 </button>
                                             </div>
-                                            <div class="modal-body">Esta seguro de elminar este usuario?.</div>
+                                            <div class="modal-body">Esta seguro de elminar este proveedor?.</div>
                                             <div class="modal-footer">
                                                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                                <a class="btn btn-primary" href="/Usuario/delete/{{item.0}}">Eliminar</a>
+                                                <a class="btn btn-primary" href="/Proveedores/delete/{{item.0}}">Eliminar</a>
                                             </div>
                                         </div>
                                         </div>
                                     </div>
-                                    <div class="modal fade" id="largeModal{{item.0}}" tabindex="-1" role="form" aria-labelledby="largeModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" id="largeModalLabel">Editar Usuario</h4>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="/Usuario/update/{{item.0}}" method="POST">
+                                    <!--**************************************************************************-->
 
-                                                        <div class="form-group">
-                                                            Nombre
-                                                            <input type="text" name="name" value="{{item.1}}" class="form-control" placeholder="*Nombre (Obligatorio)">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            Correo electrónico
-                                                            <input type="email" name="email" value="{{item.2}}" class="form-control" placeholder="*Correo electrónico (Obligatorio)">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            Usuario
-                                                            <input type="text" name="user" value="{{item.4}}" class="form-control" placeholder="*Nombre de Usuario (Obligatorio)">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            Perfil
-                                                            <select name="profile" id="profile"  class="form-control" required>
-                                                                <option value="" selected disabled>Seleccione un rol </option>
-                                                                <option value="1" >Administrador principal</option>
-                                                                <option value="2" >Administrador</option>
-                                                                <option value="3" >Usuario final</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            Contraseña
-                                                            <input type="password" value="{{item.5}}" name="password" class="form-control" placeholder="*Contraseña (Obligatorio)">
-                                                        </div>                                             
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                            <button type="submit" class="btn btn-primary">Guardar</button>
-                                                        </div>
-                                                    </form>                                
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>    
+                                       
                                 </td>                         
                             </tr>
                             {%endfor%}    

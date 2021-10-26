@@ -136,6 +136,11 @@
                     <!-- <button type="button" class="btn btn-primary mb-0" data-toggle="modal" data-target="#Modal">
                         Eliminar Usuario
                     </button> -->
+                    
+
+                    <!--********************************************************-->
+                    <!--********      MODAL DE AGRAGAR USUARIOS      ***********-->
+                    <!--********************************************************-->
 
                     <div class="modal fade" id="mediumModal" tabindex="-1" role="form" aria-labelledby="mediumModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
@@ -250,12 +255,17 @@
                             <!-- ========================================================-->
                             <!-- INICIA CONTENIDO DE LA TABLA -->
                             <tbody>
+
+                                <!--*******************************************************-->
+                                <!--Llamado a la Base de datos de acuerdo a las posiciones-->
+                                <!--********************************************************-->
+
                                 {% for item in user %}
                                 <tr>
-                                    <td>{{item.0}}</td> <!--Id. de usuariao en la posicion 0 --->                                          
-                                    <td>{{item.1}}</td> <!--Nombre. de usuariao en la posicion 1 --->                                                 
-                                    <td>{{item.2}}</td> <!--Correo. de usuariao en la posicion 2 --->         
-                                    <td>{{item.4}}</td> <!--Nick. de usuariao en la posicion 4 --->  
+                                    <td>{{item.0}}</td> <!--Id. de usuario en la posicion 0 --->                                          
+                                    <td>{{item.1}}</td> <!--Nombre. de usuario en la posicion 1 --->                                                 
+                                    <td>{{item.2}}</td> <!--Correo. de usuario en la posicion 2 --->         
+                                    <td>{{item.4}}</td> <!--Nick. de usuario en la posicion 4 --->  
                                     {% if item.3 == '1' %}       
                                         <td>Administrador principal</td> <!--Rol. de usuariao en la posicion 3 ---> 
                                     {% elif item.3 == '2' %}  
@@ -263,31 +273,16 @@
                                     {% else %} 
                                         <td>Usuario final</td> <!--Rol. de usuariao en la posicion 3 --->   
                                     {% endif %}   
-                                    <td>
+                                    <td>                                        
+                                    <!--*****************************************************************-->      
+                                    
+                                                                           
+                                        <!--***************************************************-->
+                                        <!--ACCIÓN DEL NOTÓN EDITAR QUE CONECTA CON EL MODAL-->
+                                        <!--***************************************************-->
                                         <a href="" class="btn btn-sm btn-info py-2" data-toggle="modal"  data-target="#largeModal{{item.0}}">
                                             <i  class="fas fa-edit"></i>
                                         </a>
-                                        <button data-toggle="modal"  data-target="#deleteModal{{item.0}}" class="btn btn-sm btn-danger py-2" type="submit">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <div class="modal fade" id="deleteModal{{item.0}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                        aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Eliminar a {{item.1}}</h5>
-                                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">×</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">Esta seguro de elminar este usuario?.</div>
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                                    <a class="btn btn-primary" href="/Usuario/delete/{{item.0}}">Eliminar</a>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
                                         <div class="modal fade" id="largeModal{{item.0}}" tabindex="-1" role="form" aria-labelledby="largeModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-lg" role="document">
                                                 <div class="modal-content">
@@ -302,7 +297,7 @@
 
                                                             <div class="form-group">
                                                                 Nombre
-                                                                <input type="text" name="name" value="{{item.1}}" class="form-control" placeholder="*Nombre (Obligatorio)">
+                                                                <input type="text" name="name" value="{{item.1}}" class="form-control" placeholder="*Nombre (Obligatorio)"><input type="text" name="name" value="{{item.1}}" class="form-control" placeholder="*Nombre (Obligatorio)">
                                                             </div>
                                                             <div class="form-group">
                                                                 Correo electrónico
@@ -333,7 +328,39 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>    
+                                        </div>  
+                                        <!--*****************************************************************************-->
+
+                                         <!--***************************************************-->
+                                        <!--ACCIÓN DEL BOTÓN ELIMINAR QUE CONECTA CON EL MODAL-->
+                                        <!--***************************************************-->
+                                        <button data-toggle="modal"  data-target="#deleteModal{{item.0}}" class="btn btn-sm btn-danger py-2" type="submit">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <div class="modal fade" id="deleteModal{{item.0}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                        aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Eliminar a {{item.1}}</h5>
+                                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">×</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">Esta seguro de elminar este usuario?.</div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                    <a class="btn btn-primary" href="/Usuario/delete/{{item.0}}">Eliminar</a>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <!--**************************************************************************-->
+                                        
+                                    <!--***************************************************-->
+                                    <!--ACCIÓN DEL NOTÓN EDITAR QUE CONECTA CON EL MODAL-->
+                                    <!--***************************************************-->  
+
                                     </td>                         
                                 </tr>
                                 {%endfor%}    
