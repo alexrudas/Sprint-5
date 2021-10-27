@@ -210,7 +210,7 @@ def delete_proveedores(id):
 @App.route('/Productos')
 def Productos():
     cursor = mysql.connection.cursor()
-    cursor.execute(' SELECT * FROM Productos  ')
+    cursor.execute(' SELECT * FROM productos')
     products = cursor.fetchall()
     cursor.close()
     return render_template('productos.html', products = products)
@@ -220,20 +220,20 @@ def Productos():
 #########################################################
 #  -----------Metodo de creación de productos ----------#
 #########################################################
-@App.route('/¨Productos', methods=["POST"])
+@App.route('/Productos', methods=["POST"])
 def Productos_add():
-    #Datos de formulario 
+    #Datos de formulario
     nombre = request.form['name']
     marca = request.form['brand']
     descripcion = request.form['description']
     categoria = request.form['category']
     cantidad = request.form['quantity']
     costo = request.form['cost']
-    id_proveedores = request.form['id']
-    
+    id_proveedores = request.form['id_supplier']
+    print(nombre, marca, descripcion, categoria, cantidad, costo,id_proveedores)
    
     cursor = mysql.connection.cursor()
-    cursor.execute("INSERT INTO productos(nombre, marca, descripcion, categoria, cantidad, costo,)id_proveedores VALUES (%s, %s, %s, %s, %s, %s)", (nombre, marca, descripcion, categoria, cantidad, costo, id_proveedores))
+    cursor.execute("INSERT INTO productos(nombre, marca, descripcion, categoria, cantidad, costo,id_proveedores) VALUES (%s, %s, %s, %s, %s, %s, %s )", (nombre, marca, descripcion, categoria, cantidad, costo, id_proveedores))
 
     mysql.connection.commit()
     cursor.close()
