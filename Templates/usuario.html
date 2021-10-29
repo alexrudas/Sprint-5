@@ -152,7 +152,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">   
-                                    <form action="/Usuarios" method="POST">
+                                    <form action="/Insertar/Usuarios" method="POST">
 
                                         <div class="form-group">
                                             Nombre
@@ -293,8 +293,8 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form action="/Usuario/update/{{item.0}}" method="POST">
-
+                                                        <form action="/Usuario/update" method="POST">
+                                                            <input type="hidden" name="id" value="{{item.0}}">
                                                             <div class="form-group">
                                                                 Nombre
                                                                 <input type="text" name="name" value="{{item.1}}" class="form-control" placeholder="*Nombre (Obligatorio)">
@@ -309,7 +309,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 Perfil
-                                                                <select name="profile" id="profile"  class="form-control" required>
+                                                                <select name="profile" id="profile"  value="{{item.3}} "class="form-control" required>
                                                                     <option value="" selected disabled>Seleccione un rol </option>
                                                                     <option value="1" >Administrador principal</option>
                                                                     <option value="2" >Administrador</option>

@@ -1,6 +1,7 @@
 from os import error
 import sqlite3
 from sqlite3 import Error
+from flask.templating import render_template
 
 def sql_connection():
     try:
@@ -9,9 +10,9 @@ def sql_connection():
     except :
         print ('error')
 
-def sql_insert_producto(id_producto, nombre, marca, descripcion, categoria, costo, precio, cantidad):
+def sql_insert_producto(id_producto, nombre, marca, descripcion, categoria, cantidad, costo, id_proveedores):
     try:
-        sql = f'insert into Productos(id_producto, nombre, marca, descripcion, categoria, costo, precio, cantidad) values ("{id_producto}","{nombre}",{marca},{descripcion},{categoria},{costo},{precio},{cantidad})'
+        sql = f'insert into Productos(id_producto, nombre, marca, descripcion, categoria, cantidad, costo, id_proveedores, ) values ("{id_producto}","{nombre}",{marca},{descripcion},{categoria},{cantidad}, {costo},{id_proveedores},)'
         con = sql_connection()
         cursorObj = con.cursor()
         cursorObj.execute(sql)
@@ -47,14 +48,19 @@ def sql_edit_productos(id_producto, nombre, marca, descripcion, categoria, costo
 
 def sql_delete_productos(id):
     try:
-        strsql = "delete from Productos where id = "+id+";"
+        #strsql = "delete from Productos where id = "+id+";"
         con = sql_connection()
         cursorObj = con.cursor()
-        cursorObj.execute(strsql)
+        cursorObj.execute('DELETE FROM proveedores WHERE id_proveedores = {0}'.format(id))
         con.commit()
+        data = cursorObj.fetchall()
         con.close()
     except Error as err:
-        print(err)
+        print(err) 
+  
+
+
+    
 	
 # Proveedores
 
@@ -109,49 +115,64 @@ def sql_delete_proveedores(id_proveedores):
 
 # Usuario
 
-def sql_insert_usuarios(id, nombre, mail, perfil, usuario, passw):
+def sql_insert_usuarios(nombre, mail, perfil, usuario, passw):
     try:
-        sql = f'insert into Usuarios(id, nombre, mail, perfil, usuario, passw) values ("{id}","{nombre}",{mail},{perfil},{usuario},{passw})'
+        
+        sql = ("INSERT INTO Usuarios(nombre, mail, perfil, usuario, passw) VALUES (?, ?, ?, ?, ?)", (nombre, mail, perfil, usuario, passw))
         con = sql_connection()
         cursorObj = con.cursor()
-        cursorObj.execute(sql)
+        cursorObj.execute(*sql)
         con.commit()
         con.close()
     except Error as err:
         print(err)
-    
+     
 
+    
 def sql_select_usuarios():
     try:
         strsql = "select * from Usuarios;"
         con = sql_connection()
         cursorObj = con.cursor()
         cursorObj.execute(strsql)
-        productos = cursorObj.fetchall()
-        return productos
+        user = cursorObj.fetchall()
+        return user
     except Error as err:
         print(err)
-	
+
 
 def sql_edit_usuarios(id, nombre, mail, perfil, usuario, passw):
     try:
-        strsql = "update Usuarios set id = '"+id+"', nombre = '"+nombre+"', mail = "+mail+", perfil = "+perfil+", usuario = "+usuario+", passw = "+passw+" where id = "+id+";"
+        print (id, "HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        strsql = ("update Usuarios set nombre = ?, mail = ?, perfil = ?, usuario = ?, passw = ? where id = ?;", (nombre, mail, perfil, usuario, passw, id))
         con = sql_connection()
         cursorObj = con.cursor()
-        cursorObj.execute(strsql)
+        cursorObj.execute(*strsql)
         con.commit()
         con.close()
     except Error as err:
         print(err)
-	
+
 
 def sql_delete_usuarios(id):
     try:
-        strsql = "delete from Usuarios where id = "+id+";"
+        strsql = ("delete from Usuarios where id = ?", (id))
         con = sql_connection()
         cursorObj = con.cursor()
-        cursorObj.execute(strsql)
+        cursorObj.execute(*strsql)
         con.commit()
         con.close()
     except Error as err:
         print(err)
+
+
+#def sql_select_usuarios():
+        #try:
+        #strsql = "select * from Usuarios;"
+        #con = sql_connection()
+        #cursorObj = con.cursor()
+        #conteo= cursorObj.execute(strsql).rowcount
+        #return conteo
+    #except Error as err:
+        #print(err)
+    

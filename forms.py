@@ -2,6 +2,16 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField
 from wtforms.validators import DataRequired
 
+
+class Usuarios(FlaskForm):
+    id_Usuarios = IntegerField('Codigo', validators=[DataRequired()])
+    nombre = StringField('nombre', validators=[DataRequired()])
+    mail = StringField('mail', validators=[DataRequired()])
+    ciudad = StringField('ciudad', validators=[DataRequired()])
+    direccion = StringField('direccion', validators=[DataRequired()])
+    telefono = StringField('telefono', validators=[DataRequired()])
+    enviar = SubmitField('Agregar Usuarios')
+
 class Proveedores(FlaskForm):
     id_proveedores = StringField('Codigo', validators=[DataRequired()])
     nombre = StringField('nombre', validators=[DataRequired()])
