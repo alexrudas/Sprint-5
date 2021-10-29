@@ -130,13 +130,9 @@
                       + Agregar Proveedor
                    </button>  
 
-                   <!--<button type="button" class="btn btn-primary mb-0" data-toggle="modal" data-target="#largeModal">
-                       Editar Proveedor
-                   </button>-->
-
-                   <!--<button type="button" class="btn btn-primary mb-0" data-toggle="modal" data-target="#Modal">
-                       Eliminar Proveedor
-                   </button>-->
+                   <!--*********************************************************************************************************************-->
+                <!--**************************************     --- INICIO MODAL DE BOTÓN AGREGAR --- ******************************************-->
+                <!--**********************************************************************************************************************-->
 
                    <div class="modal fade" id="mediumModal" tabindex="-1" role="form" aria-labelledby="mediumModalLabel" aria-hidden="true">
                        <div class="modal-dialog modal-lg" role="document">
@@ -156,7 +152,7 @@
                                    <div class="form-group">
                                        Categoría
                                        <select name="category" id="category"  class="form-control" required>
-                                        <option value="" selected disabled >Seleccione el Perfil de su cuenta </option>
+                                        <option value="" selected disabled >Seleccione una Categoría </option>
                                         <option value="1" >Autopartes en general</option>
                                         <option value="2" >Llantas</option>
                                         <option value="3" >Autopartes Eléctricas</option>
@@ -304,28 +300,25 @@
                                 <td>{{item.0}}</td> <!--Id. proveedor en la posicion 0 --->                                          
                                 <td>{{item.1}}</td> <!--Nombre. proveedor  en la posicion 1 --->   
 
-                                <!--{% if item.2 == '1' %} --> <!--Categoría. proveedor  en la posicion 2 --->
-                                   <!-- <td>Autopartes en general</td> <!--Categoría. proveedor en la posicion 2 ---> 
-                                <!--{% elif item.2 == '2' %}  
-                                    <td>Llantas</td> <!--Categoría. proveedor en la posicion 2 --->  
-                                <!--{% else %} 
+                                {% if item.2 == '1' %} <!--Categoría. proveedor  en la posicion 2 --->
+                                    <td>Autopartes en general</td> <!--Categoría. proveedor en la posicion 2 ---> 
+                                {% elif item.2 == '2' %}  
+                                        <td>Llantas</td> <!--Categoría. proveedor en la posicion 2 --->  
+                                {% else %} 
                                     <td>Autopartes Eléctricas</td> <!--Categoría. proveedor en la posicion 2 --->   
-                                <!--{% endif %}   
+                                {% endif %}   
                                                                               
                                 {% if item.3 == '1' %}  <!--Ciudad. proveedor  en la posicion 2 --->
-                                    <!--<td>Bogotá</td> <!--Ciudad. proveedor en la posicion 2 ---> 
-                                <!--{% elif item.3 == '2' %}  
+                                    <td>Bogotá</td> <!--Ciudad. proveedor en la posicion 2 ---> 
+                                {% elif item.3 == '2' %}  
                                     <td>Medellín</td> <!--Ciudad. proveedor en la posicion 2 --->  
-                                <!--{% else %} 
+                                {% else %} 
                                     <td>Barranquilla</td> <!--Ciudad. proveedor en la posicion 2 --->   
-                                <!--{% endif %} -->
-                                <td>{{item.2}}</td> <!--Categoría. proveedor  en la posicion 4 --->
-                                <td>{{item.3}}</td> <!--Ciudad. proveedor  en la posicion 4 --->
+                                {% endif %}                                
                                 <td>{{item.4}}</td> <!--Dirección. proveedor  en la posicion 4 --->
                                 <td>{{item.5}}</td> <!--Teléfono/Celular. proveedor  en la posicion 5 --->  
                                 
                                 <td>
-
                                     <!--*********************************************************************-->
                                     <!--ACCIÓN DEL BOTÓN EDITAR QUE CONECTA CON EL MODAL-->
                                     <!--*****************************************************************-->
@@ -351,7 +344,7 @@
                                                        <div class="form-group">
                                                            Categoría
                                                            <select name="category" id="category"  class="form-control" required>
-                                                            <option value="" selected disabled >Seleccione el Perfil de su cuenta </option>
+                                                            <option value="" selected disabled >Seleccione  una Categoría </option>
                                                             <option value="1" >Autopartes en general</option>
                                                             <option value="2" >Llantas</option>
                                                             <option value="3" >Autopartes Eléctricas</option>
@@ -480,7 +473,7 @@ aria-hidden="true">
         <div class="modal-body">Seleccione "Salir"  para terminar su sesión actual.</div>
         <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="{{ url_for('Home') }}">Logout</a>
+            <a class="btn btn-primary" href="{{ url_for('Login') }}">Logout</a>
         </div>
     </div>
     </div>
