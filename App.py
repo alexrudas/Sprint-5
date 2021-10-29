@@ -53,6 +53,7 @@ def Inicio():
     g.nombre = request.form.get("nombre")
     return render_template('inicio.html', nombre=g.nombre)
 
+############################################# INICO MÉTODOS Y RUTA DE USUARIOS ###################################################
 ###################################################################
 #### Index ruta usuarios + obtención de datos de  mysql #########
 ####################################################################
@@ -120,16 +121,169 @@ def update_contact(id):
         mysql.connection.commit()
         return redirect(url_for('Usuario'))
 #######################################################
+############################################# FIN MÉTODOS Y RUTA DE USUARIOS ###################################################
 
 
 
-@App.route('/Productos', methods=["GET", "POST"])
-def Productos():
-    return render_template('productos.html')
+############################################# INICO MÉTODOS Y RUTA DE PROVEEDORES ###################################################
 
-@App.route('/Proveedores', methods=["GET", "POST"])
+###################################################################
+#### Index ruta proveedores + obtención de datos de  mysql #########
+####################################################################
+@App.route('/Proveedores')
 def Proveedores():
-    return render_template('proveedores.html')
+    cursor = mysql.connection.cursor()
+    cursor.execute(' SELECT * FROM Proveedores  ')
+    supplier = cursor.fetchall()
+    cursor.close()
+    return render_template('proveedores.html', supplier = supplier)
+#########################################################
+
+
+#########################################################
+#  -----------Metodo de creación de proveedores -----------#
+#########################################################
+@App.route('/Proveedores', methods=["POST"])
+def Proveedores_add():
+    #Datos de formulario 
+    nombre = request.form['name']
+    categoria = request.form['category']
+    ciudad = request.form['city']
+    direccion = request.form['address']
+    telefono = request.form['phone']
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("INSERT INTO proveedores(nombre, categoria, ciudad, direccion, telefono) VALUES (%s, %s, %s, %s, %s)", (nombre, categoria, ciudad, direccion, telefono))
+
+    mysql.connection.commit()
+    cursor.close()
+    # Mensaje de creación de proveedor
+    flash('Proveedor añadido correctamente')
+    #redirecion ruta
+    return redirect(url_for('Proveedores'))
+#########################################################
+
+
+###########################################################
+#-------------Metodo Actualizar (Editar)de Proveedor -------------- #
+###########################################################
+@App.route('/Proveedores/update/<id>', methods=['POST'])
+def update_proveedort(id):
+    if request.method == 'POST':
+        #Datos de formulario 
+        nombre = request.form['name']
+        categoria = request.form['category']
+        ciudad = request.form['city']
+        direccion = request.form['address']
+        telefono = request.form['phone']
+
+        cursor = mysql.connection.cursor()
+        cursor.execute("""UPDATE proveedores SET nombre = %s, categoria = %s, ciudad = %s, direccion = %s, telefono = %s WHERE id_proveedores = %s """, (nombre, categoria, ciudad, direccion, telefono,id))
+
+        flash('Proveedor actualizado correctamente')
+        mysql.connection.commit()
+        return redirect(url_for('Proveedores'))
+#######################################################
+
+#############################################################
+#------------ Metodo de eliminiación de proveedores ------------#
+############################################################
+@App.route('/Proveedores/delete/<string:id>', methods=["GET", "POST"])
+def delete_proveedores(id):
+    cursor = mysql.connection.cursor()
+    cursor.execute('DELETE FROM proveedores WHERE id_proveedores = {0}'.format(id))
+    mysql.connection.commit()
+    flash('Proveedor eliminado correctamente')
+    return redirect(url_for('Proveedores'))
+###########################################################
+
+############################################# FIN MÉTODOS Y RUTA DE PROVEEDORES ###################################################
+
+
+
+
+############################################# INICO MÉTODOS Y RUTA DE PRODUCTOS ###################################################
+
+###################################################################
+#### Index ruta productos + obtención de datos de  mysql #########
+####################################################################
+@App.route('/Productos')
+def Productos():
+    cursor = mysql.connection.cursor()
+    cursor.execute(' SELECT * FROM Productos  ')
+    products = cursor.fetchall()
+    cursor.close()
+    return render_template('productos.html', products = products)
+#########################################################
+
+
+#########################################################
+#  -----------Metodo de creación de productos ----------#
+#########################################################
+@App.route('/¨Productos', methods=["POST"])
+def Productos_add():
+    #Datos de formulario 
+    nombre = request.form['name']
+    marca = request.form['brand']
+    descripcion = request.form['description']
+    categoria = request.form['category']
+    cantidad = request.form['quantity']
+    costo = request.form['cost']
+    id_proveedores = request.form['id']
+    
+   
+    cursor = mysql.connection.cursor()
+    cursor.execute("INSERT INTO productos(nombre, marca, descripcion, categoria, cantidad, costo,)id_proveedores VALUES (%s, %s, %s, %s, %s, %s)", (nombre, marca, descripcion, categoria, cantidad, costo, id_proveedores))
+
+    mysql.connection.commit()
+    cursor.close()
+    # Mensaje de creación de proveedor
+    flash('Producto añadido correctamente')
+    #redirecion ruta
+    return redirect(url_for('Productos'))
+#########################################################
+
+
+###########################################################
+#-------------Metodo Actualizar (Editar)de Productos ------- #
+###########################################################
+@App.route('/Productos/update/<id>', methods=['POST'])
+def update_produto(id):
+    if request.method == 'POST':
+        nombre = request.form['name']
+        marca = request.form['brand']
+        descripcion = request.form['description']
+        categoria = request.form['category']
+        cantidad = request.form['quantity']
+        costo = request.form['cost']
+      
+
+
+        cursor = mysql.connection.cursor()
+        cursor.execute("""UPDATE productos SET nombre = %s, marca = %s, descripcion = %s, categoria = %s, cantidad = %s, costo = %s WHERE id_producto = %s """, (nombre, marca, descripcion, categoria, cantidad, costo, id))
+
+        flash('Producto actualizado correctamente')
+        mysql.connection.commit()
+        return redirect(url_for('Productos'))
+#######################################################
+
+#############################################################
+#------------ Metodo de eliminiación de PRODUCTOS ------------#
+############################################################
+@App.route('/Productos/delete/<string:id>', methods=["GET", "POST"])
+def delete_producto(id):
+    cursor = mysql.connection.cursor()
+    cursor.execute('DELETE FROM productos WHERE id_producto = {0}'.format(id))
+    mysql.connection.commit()
+    flash('Producto eliminado correctamente')
+    return redirect(url_for('Productos'))
+###########################################################
+
+
+
+
+
+
 
 @App.errorhandler(404)
 def not_found(error):
