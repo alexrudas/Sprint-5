@@ -45,8 +45,8 @@ App.secret_key = os.urandom(24)
 #         return 'OK'
 
 @App.route('/', methods=["GET","POST"])
-def Home():
-    return render_template('home.html')
+def Login():
+    return render_template('login.html')
 
 @App.route('/Inicio', methods=["GET","POST"])
 def Inicio():
