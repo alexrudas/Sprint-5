@@ -78,8 +78,7 @@ def Usuario_add():
 #-------------Metodo EDITAR de usuario -------------- #
 
 @App.route('/Usuario/update', methods=['POST'])
-def editar_usuario():   
-    print("PPPPPPPPPPPPPPPPP")
+def editar_usuario():
     id = request.form ['id']
     nombre = request.form['name']
     mail = request.form['email']

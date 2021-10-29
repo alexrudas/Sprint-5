@@ -143,7 +143,6 @@ def sql_select_usuarios():
 
 def sql_edit_usuarios(id, nombre, mail, perfil, usuario, passw):
     try:
-        print (id, "HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         strsql = ("update Usuarios set nombre = ?, mail = ?, perfil = ?, usuario = ?, passw = ? where id = ?;", (nombre, mail, perfil, usuario, passw, id))
         con = sql_connection()
         cursorObj = con.cursor()
